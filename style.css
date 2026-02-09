@@ -1,0 +1,206 @@
+:root {
+    --laranja-shopee: #ee4d2d;
+    --laranja-hover: #ff5722;
+    --cinza-fundo: #f5f5f5;
+    --texto-escuro: #333333;
+    --texto-claro: #666666;
+    --branco: #ffffff;
+    --sombra: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--cinza-fundo);
+    color: var(--texto-escuro);
+    line-height: 1.6;
+}
+
+/* --- HEADER & LOGO --- */
+header {
+    background-color: var(--branco);
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: var(--sombra);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo img {
+    max-height: 60px; /* Tamanho ideal que discutimos */
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Caso você ainda use texto na logo enquanto não sobe a imagem */
+.logo-texto {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--laranja-shopee);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- BANNER DE DESTAQUE --- */
+.banner {
+    width: 95%;
+    max-width: 1100px;
+    min-height: 120px;
+    background: linear-gradient(135deg, #ee4d2d 0%, #ff7337 100%);
+    margin: 20px auto;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--branco);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(238, 77, 45, 0.3);
+}
+
+/* --- GRID DE PRODUTOS --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    display: grid;
+    /* Grid responsiva: 2 colunas no celular, 4 ou 5 no PC */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 12px;
+}
+
+@media (min-width: 768px) {
+    .container {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+}
+
+/* --- CARD DO PRODUTO --- */
+.card {
+    background: var(--branco);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
+
+.card img {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Mantém a imagem sempre quadrada */
+    object-fit: cover;
+    background-color: #eee;
+}
+
+.card-info {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.product-title {
+    font-size: 13px;
+    color: var(--texto-escuro);
+    height: 38px;
+    line-height: 1.4;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Corta o texto em 2 linhas */
+    -webkit-box-orient: vertical;
+    margin-bottom: 8px;
+}
+
+.price {
+    color: var(--laranja-shopee);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.price::before {
+    content: "R$ ";
+    font-size: 12px;
+}
+
+/* --- BOTÃO COMPRAR --- */
+.btn-buy {
+    display: block;
+    background-color: var(--laranja-shopee);
+    color: var(--branco);
+    text-align: center;
+    padding: 10px 5px;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.2s;
+    margin-top: auto; /* Empurra o botão para o final do card */
+}
+
+.btn-buy:active {
+    background-color: var(--laranja-hover);
+    transform: scale(0.98);
+}
+
+/* --- LOADING & FEEDBACK --- */
+#loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--texto-claro);
+    font-style: italic;
+}
+
+/* --- BOTÃO WHATSAPP --- */
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 1100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.3s;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.1);
+    background-color: #128c7e;
+    color: #fff;
+}
+
+/* Ícone simples usando caracteres (ou você pode usar FontAwesome) */
+.whatsapp-float::after {
+    content: "WP"; /* Placeholder caso não use ícone */
+    font-size: 14px;
+    font-weight: bold;
+}

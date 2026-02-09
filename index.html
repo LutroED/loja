@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja do Lontra | Achadinhos Shopee</title>
+    <style>
+        :root { --laranja: #ee4d2d; --cinza: #f5f5f5; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--cinza); }
+        header { background: white; padding: 20px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .logo { font-size: 24px; font-weight: bold; color: var(--laranja); text-transform: uppercase; }
+        .banner { width: 90%; max-width: 1000px; height: 150px; background: linear-gradient(45deg, #ee4d2d, #ff7337); 
+                  margin: 20px auto; border-radius: 15px; display: flex; align-items: center; justify-content: center; 
+                  color: white; font-size: 22px; font-weight: bold; text-align: center; padding: 10px; box-sizing: border-box; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; display: grid; 
+                     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 8px; overflow: hidden; transition: 0.3s; border: 1px solid #eee; display: flex; flex-direction: column; }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card-info { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-title { font-size: 14px; height: 40px; overflow: hidden; margin-bottom: 10px; color: #333; line-height: 1.4; }
+        .price { color: var(--laranja); font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .btn-buy { display: block; background: var(--laranja); color: white; text-align: center; 
+                   padding: 10px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: auto; }
+        #loading { text-align: center; padding: 50px; font-size: 18px; color: #666; }
+    </style>
+</head>
+<body>
+
+// <header>
+//    <div class="logo">🦦 Loja do Lontra</div>
+// </header>
+<header>
+    <div class="logo">
+        <img src="img/sua-logo.png" alt="Loja do Lontra">
+    </div>
+</header>
+
+<div class="banner">🔥 ACHADINHOS DO LONTRA: PREÇO BAIXO TODO DIA!</div>
+
+<div id="loading">Carregando ofertas...</div>
+<div class="container" id="vitrine"></div>
+
+<script>
+    // COLE O SEU LINK DO GOOGLE SHEETS (CSV) ABAIXO:
+    const SHEET_URL = 'COLE_AQUI_O_LINK_DO_CSV';
+
+    async function carregarProdutos() {
+        try {
+            const response = await fetch(SHEET_URL);
+            const data = await response.text();
+            
+            // Converte CSV em Array de Objetos
+            const linhas = data.split('\n').slice(1); // Remove o cabeçalho
+            const vitrine = document.getElementById('vitrine');
+            document.getElementById('loading').style.display = 'none';
+
+            linhas.forEach(linha => {
+                const colunas = linha.split(',');
+                if (colunas.length >= 4) {
+                    const [nome, preco, imagem, link] = colunas;
+                    vitrine.innerHTML += `
+                        <div class="card">
+                            <img src="${imagem.trim()}" alt="${nome}">
+                            <div class="card-info">
+                                <div class="product-title">${nome}</div>
+                                <div class="price">R$ ${preco}</div>
+                                <a href="${link.trim()}" target="_blank" class="btn-buy">VER NA SHOPEE</a>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        } catch (error) {
+            console.error('Erro ao carregar produtos:', error);
+            document.getElementById('loading').innerText = 'Erro ao carregar produtos. Verifique o link da planilha.';
+        }
+    }
+
+    carregarProdutos();
+</script>
+
+<a href="https://wa.me/5555991261440?text=Olá! Estava na Loja do Lontra e gostaria de tirar uma dúvida sobre um produto." 
+   class="whatsapp-float" 
+   target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width: 35px; height: 35px;" alt="WhatsApp">
+</a>
+
+</body>
+</html>
