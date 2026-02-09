@@ -71,54 +71,59 @@
 </a>
 
 <script>
-    // 1. SUBSTITUA PELO SEU LINK CSV DO GOOGLE SHEETS
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTmWBSLnFp1ShRWarqUVr9038CijTyR4xqDs5fgoajloQL_zVbi9ivNP1pWTRf84h7WJIry6QPyEBz4/pub?output=csv';
 
     async function carregarProdutos() {
         try {
             const response = await fetch(SHEET_URL);
-            const data = await response.text();
-            const linhas = data.split(/\r?\n/).slice(1);
-            const vitrine = document.getElementById('vitrine');
+            if (!response.ok) throw new Error('Erro ao buscar planilha');
             
+            const data = await response.text();
+            // Divide as linhas e remove linhas vazias no final
+            const linhas = data.split(/\r?\n/).filter(linha => linha.trim() !== "").slice(1);
+            
+            const vitrine = document.getElementById('vitrine');
             let htmlGeral = "";
 
             linhas.forEach(linha => {
-                // Regex para separar colunas mesmo que tenham vírgulas dentro de aspas
+                // Regex aprimorada para lidar com vírgulas dentro de aspas
                 const colunas = linha.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
                 
                 if (colunas && colunas.length >= 4) {
-                    const nome = colunas[0].replace(/"/g, "");
-                    const preco = colunas[1].replace(/"/g, "");
-                    const imagem = colunas[2].replace(/"/g, "");
-                    const link = colunas[3].replace(/"/g, "");
+                    const nome = colunas[0].replace(/"/g, "").trim();
+                    const preco = colunas[1].replace(/"/g, "").trim();
+                    const imagem = colunas[2].replace(/"/g, "").trim();
+                    const link = colunas[3].replace(/"/g, "").trim();
 
- // No loop 'linhas.forEach', atualize a parte da imagem:
+                    htmlGeral += `
+                        <div class="card">
+                            <img src="${imagem}" alt="${nome}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/300?text=Imagem+Indisponivel';">
+                            <div class="card-info">
+                                <div class="product-title">${nome}</div>
+                                <div class="price">${preco}</div>
+                                <a href="${link}" target="_blank" class="btn-buy">COMPRAR AGORA</a>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
 
-htmlGeral += `
-    <div class="card">
-        <img src="${imagem}" 
-             alt="${nome}" 
-             loading="lazy" 
-             onerror="this.onerror=null; this.src='img/placeholder.png';">
-        <div class="card-info">
-            <div class="product-title">${nome}</div>
-            <div class="price">${preco}</div>
-            <a href="${link}" target="_blank" class="btn-buy">COMPRAR AGORA</a>
-        </div>
-    </div>
-`;
+            if (htmlGeral === "") {
+                vitrine.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Nenhum produto encontrado na planilha.</p>";
+            } else {
+                vitrine.innerHTML = htmlGeral;
+            }
 
-            vitrine.innerHTML = htmlGeral || "Nenhum produto encontrado.";
         } catch (error) {
-            document.getElementById('loading').innerText = "Erro ao carregar ofertas.";
+            console.error('Erro detalhado:', error);
+            document.getElementById('vitrine').innerHTML = "<p id='loading'>Erro ao carregar ofertas. Verifique a conexão.</p>";
         }
     }
 
     carregarProdutos();
 </script>
-
 </body>
 </html>
+
 
 
