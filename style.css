@@ -25,47 +25,47 @@ body {
 /* --- HEADER & LOGO --- */
 header {
     background: var(--branco);
-    padding: 0.8rem 5%; /* Padding lateral em % para PC */
+    padding: 10px 5%;
     box-shadow: var(--sombra);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-/* Container que segura a logo e o texto lado a lado */
-.header-content {
+/* ESTE É O SEGREDO: O container Flex */
+.header-container {
     max-width: 1200px;
     margin: 0 auto;
-    display: flex;
-    align-items: center; /* Centraliza verticalmente logo e texto */
-    gap: 15px; /* Espaço entre a logo e o texto */
+    display: flex;         /* Ativa o alinhamento lado a lado */
+    align-items: center;   /* Alinha verticalmente no centro */
+    justify-content: flex-start; /* Alinha tudo à esquerda */
+    gap: 15px;             /* Espaço entre logo e texto */
 }
 
 .logo img {
-    height: 3.5rem; /* Usando rem para escalar com o navegador */
-    max-height: 80px;
-    width: auto;
+    height: 50px;          /* Altura fixa inicial para teste */
+    width: auto;           /* Mantém a proporção */
+    display: block;
 }
 
 .logo-texto {
-    font-size: clamp(1.2rem, 4vw, 1.8rem); /* Fonte que cresce conforme a tela */
-    font-weight: 800;
+    font-size: 1.5rem;
+    font-weight: bold;
     color: var(--laranja);
-    text-transform: uppercase;
-    letter-spacing: -1px;
-    margin: 0;
-    white-space: nowrap; /* Impede que o nome quebre em duas linhas */
+    margin: 0;             /* Remove margens padrão do H1 */
+    font-family: sans-serif;
 }
 
 /* Ajuste para telas maiores (PC) */
 @media (min-width: 768px) {
-    header {
-        padding: 1rem 10%;
-    }
     .logo img {
-        height: 4.5rem; /* Logo um pouco maior no PC */
+        height: 70px;      /* Logo maior no PC */
+    }
+    .logo-texto {
+        font-size: 2.2rem; /* Texto maior no PC */
     }
 }
+
 /* --- BANNER DE DESTAQUE --- */
 .banner {
     width: 95%;
@@ -222,4 +222,5 @@ header {
     font-weight: bold;
 
 }
+
 
