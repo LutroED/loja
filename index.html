@@ -74,56 +74,67 @@
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTmWBSLnFp1ShRWarqUVr9038CijTyR4xqDs5fgoajloQL_zVbi9ivNP1pWTRf84h7WJIry6QPyEBz4/pub?output=csv';
 
     async function carregarProdutos() {
-        try {
-            const response = await fetch(SHEET_URL);
-            if (!response.ok) throw new Error('Erro ao buscar planilha');
-            
-            const data = await response.text();
-            // Divide as linhas e remove linhas vazias no final
-            const linhas = data.split(/\r?\n/).filter(linha => linha.trim() !== "").slice(1);
-            
-            const vitrine = document.getElementById('vitrine');
-            let htmlGeral = "";
+    try {
+        const response = await fetch(SHEET_URL);
+        if (!response.ok) throw new Error('Erro ao buscar planilha');
+        
+        const data = await response.text();
+        
+        // Divide por linhas e remove linhas vazias
+        const linhas = data.split(/\r?\n/).filter(linha => linha.trim() !== "").slice(1);
+        
+        const vitrine = document.getElementById('vitrine');
+        let htmlGeral = "";
 
-            linhas.forEach(linha => {
-                // Regex aprimorada para lidar com vírgulas dentro de aspas
-                const colunas = linha.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                
-                if (colunas && colunas.length >= 4) {
-                    const nome = colunas[0].replace(/"/g, "").trim();
-                    const preco = colunas[1].replace(/"/g, "").trim();
-                    const imagem = colunas[2].replace(/"/g, "").trim();
-                    const link = colunas[3].replace(/"/g, "").trim();
+        linhas.forEach(linha => {
+            // Nova lógica de divisão: separa por vírgula, mas respeita o que está entre aspas
+            const colunas = [];
+            let campoAtual = "";
+            let dentroDeAspas = false;
 
-                    htmlGeral += `
-                        <div class="card">
-                            <img src="${imagem}" alt="${nome}" loading="lazy" onerror="this.onerror=null; this.src='https://placehold.co/300?text=Imagem+Indisponivel';">
-                            <div class="card-info">
-                                <div class="product-title">${nome}</div>
-                                <div class="price">${preco}</div>
-                                <a href="${link}" target="_blank" class="btn-buy">COMPRAR AGORA</a>
-                            </div>
-                        </div>
-                    `;
+            for (let i = 0; i < linha.length; i++) {
+                let char = linha[i];
+                if (char === '"') {
+                    dentroDeAspas = !dentroDeAspas;
+                } else if (char === ',' && !dentroDeAspas) {
+                    colunas.push(campoAtual.trim());
+                    campoAtual = "";
+                } else {
+                    campoAtual += char;
                 }
-            });
-
-            if (htmlGeral === "") {
-                vitrine.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Nenhum produto encontrado na planilha.</p>";
-            } else {
-                vitrine.innerHTML = htmlGeral;
             }
+            colunas.push(campoAtual.trim()); // Adiciona a última coluna
 
-        } catch (error) {
-            console.error('Erro detalhado:', error);
-            document.getElementById('vitrine').innerHTML = "<p id='loading'>Erro ao carregar ofertas. Verifique a conexão.</p>";
-        }
+            if (colunas.length >= 4) {
+                const nome = colunas[0].replace(/^"|"$/g, "");
+                const preco = colunas[1].replace(/^"|"$/g, "");
+                const imagem = colunas[2].replace(/^"|"$/g, "");
+                const link = colunas[3].replace(/^"|"$/g, "");
+
+                htmlGeral += `
+                    <div class="card">
+                        <img src="${imagem}" alt="${nome}" loading="lazy" onerror="this.onerror=null; this.src='img/placeholder.png';">
+                        <div class="card-info">
+                            <div class="product-title">${nome}</div>
+                            <div class="price">${preco}</div>
+                            <a href="${link}" target="_blank" class="btn-buy">COMPRAR AGORA</a>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+
+        vitrine.innerHTML = htmlGeral || "Nenhum produto encontrado.";
+    } catch (error) {
+        console.error('Erro:', error);
+        document.getElementById('vitrine').innerHTML = "Erro ao carregar as ofertas.";
     }
-
+}
     carregarProdutos();
 </script>
 </body>
 </html>
+
 
 
 
