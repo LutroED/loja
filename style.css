@@ -34,10 +34,11 @@ header {
 }
 
 .logo img {
-    max-height: 60px; /* Tamanho ideal que discutimos */
+    max-height: 100px; /* Aumentamos aqui de 50px para 100px */
     width: auto;
     display: block;
     margin: 0 auto;
+    padding: 10px 0; /* Adiciona um espacinho em cima e embaixo para não sufocar */
 }
 
 /* Caso você ainda use texto na logo enquanto não sobe a imagem */
@@ -203,4 +204,5 @@ header {
     content: "WP"; /* Placeholder caso não use ícone */
     font-size: 14px;
     font-weight: bold;
+
 }
