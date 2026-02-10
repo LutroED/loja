@@ -24,32 +24,48 @@ body {
 
 /* --- HEADER & LOGO --- */
 header {
-    background-color: var(--branco);
-    padding: 15px 0;
-    text-align: center;
+    background: var(--branco);
+    padding: 0.8rem 5%; /* Padding lateral em % para PC */
     box-shadow: var(--sombra);
     position: sticky;
     top: 0;
     z-index: 1000;
 }
 
-.logo img {
-    max-height: 100px; /* Aumentamos aqui de 50px para 100px */
-    width: auto;
-    display: block;
+/* Container que segura a logo e o texto lado a lado */
+.header-content {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 10px 0; /* Adiciona um espacinho em cima e embaixo para não sufocar */
+    display: flex;
+    align-items: center; /* Centraliza verticalmente logo e texto */
+    gap: 15px; /* Espaço entre a logo e o texto */
 }
 
-/* Caso você ainda use texto na logo enquanto não sobe a imagem */
+.logo img {
+    height: 3.5rem; /* Usando rem para escalar com o navegador */
+    max-height: 80px;
+    width: auto;
+}
+
 .logo-texto {
-    font-size: 22px;
+    font-size: clamp(1.2rem, 4vw, 1.8rem); /* Fonte que cresce conforme a tela */
     font-weight: 800;
-    color: var(--laranja-shopee);
+    color: var(--laranja);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: -1px;
+    margin: 0;
+    white-space: nowrap; /* Impede que o nome quebre em duas linhas */
 }
 
+/* Ajuste para telas maiores (PC) */
+@media (min-width: 768px) {
+    header {
+        padding: 1rem 10%;
+    }
+    .logo img {
+        height: 4.5rem; /* Logo um pouco maior no PC */
+    }
+}
 /* --- BANNER DE DESTAQUE --- */
 .banner {
     width: 95%;
@@ -206,3 +222,4 @@ header {
     font-weight: bold;
 
 }
+
