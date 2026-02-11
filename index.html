@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja do Lontra | Achadinhos Shopee</title>
-    
-    <link rel="icon" type="image/png" href="img/favicon-lontra.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦦</text></svg>">
 
     <style>
         :root {
@@ -17,174 +16,59 @@
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            background-color: var(--cinza-fundo); 
-            color: #333; 
-        }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background-color: var(--cinza-fundo); color: #333; }
 
-        /* --- HEADER LADO A LADO --- */
-        header {
-            background: var(--branco);
-            padding: 10px 5%;
-            box-shadow: var(--sombra);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        header { background: var(--branco); padding: 10px 5%; box-shadow: var(--sombra); position: sticky; top: 0; z-index: 1000; }
+        .header-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 15px; }
+        .logo img { height: 55px; width: auto; }
+        .logo-texto { font-size: clamp(1.2rem, 5vw, 2rem); font-weight: 800; color: var(--laranja); margin: 0; text-transform: uppercase; }
 
-        .header-container {
+        /* --- CAMPO DE BUSCA --- */
+        .search-container {
             max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 15px;
+            margin: 15px auto;
+            padding: 0 10px;
         }
-
-        .logo img {
-            height: 55px; /* Altura para mobile */
-            width: auto;
-            display: block;
-        }
-
-        .logo-texto {
-            font-size: clamp(1.2rem, 5vw, 2rem);
-            font-weight: 800;
-            color: var(--laranja);
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-        }
-
-        /* --- BANNER --- */
-        .banner {
-            width: 95%;
-            max-width: 1200px;
-            background: linear-gradient(135deg, #ee4d2d 0%, #ff7337 100%);
-            margin: 20px auto;
-            border-radius: 12px;
-            padding: 20px;
-            color: white;
-            text-align: center;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(238,77,45,0.2);
-        }
-
-        /* --- GRID DE PRODUTOS --- */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 10px;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 colunas no celular */
-            gap: 12px;
-        }
-
-        .card {
-            background: var(--branco);
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s;
-            border: 1px solid rgba(0,0,0,0.05);
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        .card img {
+        #searchInput {
             width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            background-color: #f9f9f9;
-        }
-
-        .card-info {
-            padding: 12px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-title {
-            font-size: 14px;
-            height: 40px;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            font-weight: 500;
-        }
-
-        .price {
-            color: var(--laranja);
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-        }
-
-        .price::before {
-            content: "R$ ";
-            font-size: 0.8rem;
-        }
-
-        .btn-buy {
-            background: var(--laranja);
-            color: white;
-            text-align: center;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: auto;
-        }
-
-        /* --- BOTÃO WHATSAPP --- */
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 20px;
-            right: 20px;
-            background: #25d366;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
-            z-index: 2000;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 2px solid #ddd;
+            font-size: 16px;
+            outline: none;
             transition: 0.3s;
         }
+        #searchInput:focus { border-color: var(--laranja); box-shadow: 0 0 8px rgba(238, 77, 45, 0.2); }
 
-        .whatsapp-float:hover { transform: scale(1.1); }
-        .whatsapp-float img { width: 35px; }
+        .banner { width: 95%; max-width: 1200px; background: linear-gradient(135deg, #ee4d2d 0%, #ff7337 100%); margin: 10px auto; border-radius: 12px; padding: 15px; color: white; text-align: center; font-weight: bold; }
 
-        /* --- MEDIA QUERIES (PC) --- */
-        @media (min-width: 768px) {
-            .container {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-                gap: 20px;
-            }
-            .logo img { height: 75px; } /* Logo maior no PC */
-            .banner { padding: 40px; font-size: 1.5rem; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 10px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+        .card { 
+            background: var(--branco); border-radius: 8px; overflow: hidden; display: flex; flex-direction: column; 
+            transition: 0.2s; border: 1px solid rgba(0,0,0,0.05); text-decoration: none; color: inherit; position: relative;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
+
+        /* Selo do ID */
+        .product-id {
+            position: absolute; top: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white;
+            padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; z-index: 10;
         }
 
-        #loading {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 50px;
-            font-size: 1.2rem;
-            color: #666;
+        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; background-color: #f9f9f9; }
+        .card-info { padding: 12px; flex-grow: 1; display: flex; flex-direction: column; }
+        .product-title { font-size: 14px; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; margin-bottom: 8px; line-height: 1.4; }
+        .price { color: var(--laranja); font-size: 1.2rem; font-weight: 800; margin-bottom: 10px; }
+        .price::before { content: "R$ "; font-size: 0.8rem; }
+        .btn-buy { background: var(--laranja); color: white; text-align: center; padding: 8px; border-radius: 6px; font-weight: bold; font-size: 13px; }
+
+        .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 20px; right: 20px; background: #25d366; border-radius: 50px; display: flex; align-items: center; justify-content: center; box-shadow: 2px 5px 15px rgba(0,0,0,0.3); z-index: 2000; }
+        .whatsapp-float img { width: 35px; }
+
+        @media (min-width: 768px) {
+            .container { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+            .logo img { height: 75px; }
         }
     </style>
 </head>
@@ -192,22 +76,22 @@
 
 <header>
     <div class="header-container">
-        <div class="logo">
-            <img src="img/logo.png" alt="Logo" onerror="this.style.display='none'">
-        </div>
+        <div class="logo"><img src="img/logo.png" alt="Logo" onerror="this.style.display='none'"></div>
         <h1 class="logo-texto">Loja do Lontra</h1>
     </div>
 </header>
 
-<div class="banner">🦦 ACHADINHOS DA LONTRA: Ofertas Selecionadas! 🔥</div>
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Buscar por nome ou número (ex: 01)..." onkeyup="filtrarProdutos()">
+</div>
+
+<div class="banner">🦦 OFERTAS DA LONTRA: O que é bom, a gente compartilha! 🔥</div>
 
 <main class="container" id="vitrine">
-    <div id="loading">Carregando ofertas imperdíveis...</div>
+    <div style="grid-column: 1/-1; text-align: center; padding: 50px;">Carregando achadinhos...</div>
 </main>
 
-<a href="https://wa.me/55991261440?text=Olá! Vim pela Loja do Lontra e gostaria de tirar uma dúvida." 
-   class="whatsapp-float" 
-   target="_blank">
+<a href="https://wa.me/55991261440?text=Olá! Vim pela Loja do Lontra e gostaria de tirar uma dúvida." class="whatsapp-float" target="_blank">
     <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
 </a>
 
@@ -217,40 +101,36 @@
     async function carregarProdutos() {
         try {
             const response = await fetch(SHEET_URL);
-            if (!response.ok) throw new Error('Falha na rede');
-            
             const data = await response.text();
-            const linhas = data.split(/\r?\n/).filter(line => line.trim() !== "").slice(1);
+            
+            // Divide linhas, remove vazias, pula cabeçalho e INVERTE a ordem (mais novos primeiro)
+            const linhas = data.split(/\r?\n/).filter(line => line.trim() !== "").slice(1).reverse();
             
             const vitrine = document.getElementById('vitrine');
             let htmlGeral = "";
 
             linhas.forEach(linha => {
-                // Lógica para separar colunas respeitando aspas
                 let colunas = [];
                 let campo = "";
                 let dentroAspas = false;
 
                 for (let char of linha) {
-                    if (char === '"') {
-                        dentroAspas = !dentroAspas;
-                    } else if (char === ',' && !dentroAspas) {
-                        colunas.push(campo.trim());
-                        campo = "";
-                    } else {
-                        campo += char;
-                    }
+                    if (char === '"') dentroAspas = !dentroAspas;
+                    else if (char === ',' && !dentroAspas) { colunas.push(campo.trim()); campo = ""; }
+                    else campo += char;
                 }
                 colunas.push(campo.trim());
 
-                if (colunas.length >= 4) {
-                    const nome = colunas[0].replace(/^"|"$/g, "");
-                    const preco = colunas[1].replace(/^"|"$/g, "");
-                    const imagem = colunas[2].replace(/^"|"$/g, "");
-                    const link = colunas[3].replace(/^"|"$/g, "");
+                if (colunas.length >= 5) {
+                    const id = colunas[0].replace(/^"|"$/g, "");
+                    const nome = colunas[1].replace(/^"|"$/g, "");
+                    const preco = colunas[2].replace(/^"|"$/g, "");
+                    const imagem = colunas[3].replace(/^"|"$/g, "");
+                    const link = colunas[4].replace(/^"|"$/g, "");
 
                     htmlGeral += `
-                        <a href="${link}" target="_blank" class="card">
+                        <a href="${link}" target="_blank" class="card" data-busca="${id} ${nome.toLowerCase()}">
+                            <span class="product-id">#${id}</span>
                             <img src="${imagem}" alt="${nome}" onerror="this.onerror=null; this.src='img/placeholder.png';">
                             <div class="card-info">
                                 <div class="product-title">${nome}</div>
@@ -263,11 +143,23 @@
             });
 
             vitrine.innerHTML = htmlGeral || "Nenhum produto encontrado.";
-
         } catch (error) {
-            console.error('Erro:', error);
-            document.getElementById('vitrine').innerHTML = "<div id='loading'>Erro ao carregar a planilha. Verifique o link e tente novamente.</div>";
+            document.getElementById('vitrine').innerHTML = "Erro ao carregar ofertas.";
         }
+    }
+
+    function filtrarProdutos() {
+        const termo = document.getElementById('searchInput').value.toLowerCase();
+        const cards = document.querySelectorAll('.card');
+        
+        cards.forEach(card => {
+            const textoBusca = card.getAttribute('data-busca');
+            if (textoBusca.includes(termo)) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
     }
 
     carregarProdutos();
@@ -275,4 +167,3 @@
 
 </body>
 </html>
-
