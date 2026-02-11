@@ -148,22 +148,32 @@
         }
     }
 
-    function filtrarProdutos() {
-        const termo = document.getElementById('searchInput').value.toLowerCase();
-        const cards = document.querySelectorAll('.card');
+function filtrarProdutos() {
+    const termoInput = document.getElementById('searchInput').value;
+    
+    // Função para remover acentos e deixar tudo minúsculo
+    const normalizar = (texto) => 
+        texto.toLowerCase()
+             .normalize("NFD")
+             .replace(/[\u0300-\u036f]/g, "");
+
+    const termo = normalizar(termoInput);
+    const cards = document.querySelectorAll('.card');
+    
+    cards.forEach(card => {
+        const textoBusca = normalizar(card.getAttribute('data-busca'));
         
-        cards.forEach(card => {
-            const textoBusca = card.getAttribute('data-busca');
-            if (textoBusca.includes(termo)) {
-                card.style.display = "flex";
-            } else {
-                card.style.display = "none";
-            }
-        });
-    }
+        if (textoBusca.includes(termo)) {
+            card.style.display = "flex";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
 
     carregarProdutos();
 </script>
 
 </body>
 </html>
+
